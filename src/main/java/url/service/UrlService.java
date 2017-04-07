@@ -17,6 +17,7 @@ public class UrlService {
             key += 1;
             ids.put(url, key);
             urls.put(key, url);
+            stats.put(key, Long.valueOf(0));
 
             return key;
         }
@@ -34,6 +35,12 @@ public class UrlService {
             stats.put(id, stats.get(id) + 1);
             return urls.get(id);
         }
+        else throw new NullPointerException();
+    }
+
+    public long getStats(long id){
+        if(stats.containsKey(id))
+            return stats.get(id);
         else throw new NullPointerException();
     }
 }

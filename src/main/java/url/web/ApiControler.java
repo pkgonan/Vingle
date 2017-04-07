@@ -2,6 +2,7 @@ package url.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import url.model.Stats;
 import url.model.Url;
 import url.service.UrlService;
 
@@ -34,5 +35,14 @@ public class ApiControler {
 
         response.setStatus(301);
         response.sendRedirect(url);
+    }
+
+    @RequestMapping(value = "/{id}/stats", method = RequestMethod.GET)
+    @ResponseBody
+    Stats getAccessStats(@PathVariable(value = "id") long id, HttpServletResponse response) throws IOException {
+        long stats = urlService.getStats(id);
+        response.setStatus(200);
+
+        return new Stats(stats);
     }
 }
