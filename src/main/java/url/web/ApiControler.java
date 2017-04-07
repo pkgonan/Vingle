@@ -7,6 +7,7 @@ import url.service.UrlService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @RestController
 public class ApiControler {
@@ -24,5 +25,14 @@ public class ApiControler {
         response.setContentType("application/json");
 
         return new Url(request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/" + id);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    void getAccessUrl(@PathVariable(value = "id") long id, HttpServletResponse response) throws IOException {
+        String url = urlService.getUrl(id);
+
+        response.setStatus(301);
+        response.sendRedirect(url);
     }
 }
